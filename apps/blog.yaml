@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: riverli-blog
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: riverli-blog
+  template:
+    metadata:
+      labels:
+        app: riverli-blog
+    spec:
+      containers:
+        - name: blog-api
+          # 🌟 这行就是舞台的中心！现在写的是 :latest，等下 Jenkins 就会把它改成 :v10
+          image: ghcr.io/strive9930/riverli-blog-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ConsulConfig__Address
+              value: "http://consul-server:8500"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-service
+  namespace: default
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: riverli-blog
