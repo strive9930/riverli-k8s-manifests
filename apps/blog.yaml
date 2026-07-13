@@ -19,8 +19,8 @@ spec:
       #  --docker-username=strive9930 \
       #  --docker-password=token密钥 \
       #  -n default
-#      imagePullSecrets:
-#        - name: ghcr-secret
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: blog-api
           # 🌟 这行就是舞台的中心！现在写的是 :latest，等下 Jenkins 就会把它改成 :v10
