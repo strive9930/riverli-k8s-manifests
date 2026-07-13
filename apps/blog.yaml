@@ -13,6 +13,14 @@ spec:
       labels:
         app: riverli-blog
     spec:
+      # 👇 加上这段，告诉 K8s 用刚才创建的 ghcr-secret 
+      #kubectl create secret docker-registry ghcr-secret \
+      #  --docker-server=ghcr.io \
+      #  --docker-username=strive9930 \
+      #  --docker-password=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 \
+      #  -n default
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: blog-api
           # 🌟 这行就是舞台的中心！现在写的是 :latest，等下 Jenkins 就会把它改成 :v10
