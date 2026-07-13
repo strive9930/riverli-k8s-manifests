@@ -16,7 +16,7 @@ spec:
       containers:
         - name: blog-api
           # 🌟 这行就是舞台的中心！现在写的是 :latest，等下 Jenkins 就会把它改成 :v10
-          image: ghcr.io/strive9930/riverli-blog-api:v14
+          image: ghcr.io/strive9930/riverli-blog-api:v19
           ports:
             - containerPort: 8080
           env:
