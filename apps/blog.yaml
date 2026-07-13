@@ -17,7 +17,7 @@ spec:
       #kubectl create secret docker-registry ghcr-secret \
       #  --docker-server=ghcr.io \
       #  --docker-username=strive9930 \
-      #  --docker-password=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 \
+      #  --docker-password=token密钥 \
       #  -n default
       imagePullSecrets:
         - name: ghcr-secret
