@@ -26,7 +26,7 @@ spec:
       containers:
         - name: blog-quartz
           # 🌟 Jenkins 自动替换版本号
-          image: ghcr.io/strive9930/riverli-blog-quartz:v2
+          image: ghcr.io/strive9930/riverli-blog-quartz:v3
           ports:
             - containerPort: 8080
           env:
