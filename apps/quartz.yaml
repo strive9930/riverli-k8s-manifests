@@ -1,0 +1,48 @@
+# =============================================================================
+# K8s 编排文件 — riverli-blog-quartz (定时任务调度服务)
+# =============================================================================
+# 说明：Quartz 服务负责定时任务调度（如数据清理、定时通知），集群内运行，无需对外暴露。
+#       ArgoCD / Jenkins 会自动将 :latest 替换为具体版本号（如 :v42）
+# =============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: riverli-quartz
+  namespace: default
+spec:
+  replicas: 1                   # 定时任务服务只需 1 个副本，避免重复执行
+  selector:
+    matchLabels:
+      app: riverli-quartz
+  template:
+    metadata:
+      labels:
+        app: riverli-quartz
+    spec:
+      # 🔐 GitHub Container Registry 认证凭据
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: blog-quartz
+          # 🌟 Jenkins 自动替换版本号
+          image: ghcr.io/strive9930/riverli-blog-quartz:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ConsulConfig__Address
+              value: "http://consul-server:8500"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quartz-service
+  namespace: default
+spec:
+  # 默认 ClusterIP 类型，仅集群内部可访问
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: riverli-quartz

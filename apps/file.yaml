@@ -1,0 +1,48 @@
+# =============================================================================
+# K8s 编排文件 — riverli-blog-file (文件服务)
+# =============================================================================
+# 说明：文件服务负责文件上传/下载/管理，集群内 RPC 调用，无需对外暴露。
+#       ArgoCD / Jenkins 会自动将 :latest 替换为具体版本号（如 :v42）
+# =============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: riverli-file
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: riverli-file
+  template:
+    metadata:
+      labels:
+        app: riverli-file
+    spec:
+      # 🔐 GitHub Container Registry 认证凭据
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: blog-file
+          # 🌟 Jenkins 自动替换版本号
+          image: ghcr.io/strive9930/riverli-blog-file:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ConsulConfig__Address
+              value: "http://consul-server:8500"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-service
+  namespace: default
+spec:
+  # 默认 ClusterIP 类型，仅集群内部可访问
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: riverli-file
