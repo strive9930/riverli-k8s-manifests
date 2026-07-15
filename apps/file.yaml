@@ -26,7 +26,7 @@ spec:
       containers:
         - name: blog-file
           # 🌟 Jenkins 自动替换版本号
-          image: ghcr.io/strive9930/riverli-blog-file:v4
+          image: ghcr.io/strive9930/riverli-blog-file:v6
           ports:
             - containerPort: 8080
           env:
