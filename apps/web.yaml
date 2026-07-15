@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: blog-web
-          image: ghcr.io/strive9930/riverli-blog-web:v7
+          image: ghcr.io/strive9930/riverli-blog-web:v8
           ports:
             - containerPort: 80
 ---
