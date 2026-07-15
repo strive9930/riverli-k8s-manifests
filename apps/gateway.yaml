@@ -33,6 +33,9 @@ spec:
           ports:
             - containerPort: 8080   # 容器内 ASP.NET 监听端口
           env:
+             # 🌟 核心开关：告诉 .NET 容器现在是生产环境，自动加载 appsettings.Production.json
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
             - name: ConsulConfig__Address
               value: "http://consul-server:8500"   # Consul 服务发现地址
 
