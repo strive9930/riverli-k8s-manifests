@@ -26,7 +26,7 @@ spec:
       containers:
         - name: blog-identity
           # 🌟 Jenkins 自动替换版本号
-          image: ghcr.io/strive9930/riverli-blog-identity:latest
+          image: ghcr.io/strive9930/riverli-blog-identity:v5
           ports:
             - containerPort: 8080
           env:
