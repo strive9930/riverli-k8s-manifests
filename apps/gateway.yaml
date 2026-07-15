@@ -29,7 +29,7 @@ spec:
       containers:
         - name: blog-gateway     # 容器名称
           # 🌟 Jenkins 会自动将 latest 替换为 v${BUILD_NUMBER}
-          image: ghcr.io/strive9930/riverli-blog-gateway:v4
+          image: ghcr.io/strive9930/riverli-blog-gateway:v5
           ports:
             - containerPort: 8080   # 容器内 ASP.NET 监听端口
           env:
