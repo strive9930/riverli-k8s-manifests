@@ -1,48 +1,48 @@
-# =============================================================================
-# K8s 编排文件 — riverli-blog-consul (Consul 配置中心服务)
-# =============================================================================
-# 说明：Consul 微服务负责服务注册与健康检查，集群内通信，无需对外暴露。
-#       ArgoCD / Jenkins 会自动将 :latest 替换为具体版本号（如 :v42）
-# =============================================================================
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: riverli-consul
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: riverli-consul
-  template:
-    metadata:
-      labels:
-        app: riverli-consul
-    spec:
-      # 🔐 GitHub Container Registry 认证凭据
-      imagePullSecrets:
-        - name: ghcr-secret
-      containers:
-        - name: blog-consul
-          # 🌟 Jenkins 自动替换版本号
-          image: ghcr.io/strive9930/riverli-blog-consul:latest
-          ports:
-            - containerPort: 8080
-          env:
-            - name: ConsulConfig__Address
-              value: "http://consul-server:8500"
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: consul-service
-  namespace: default
-spec:
-  # 默认 ClusterIP 类型，仅集群内部可访问
-  ports:
-    - port: 80
-      targetPort: 8080
-  selector:
-    app: riverli-consul
+## =============================================================================
+## K8s 编排文件 — riverli-blog-consul (Consul 配置中心服务)
+## =============================================================================
+## 说明：Consul 微服务负责服务注册与健康检查，集群内通信，无需对外暴露。
+##       ArgoCD / Jenkins 会自动将 :latest 替换为具体版本号（如 :v42）
+## =============================================================================
+#
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: riverli-consul
+#  namespace: default
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: riverli-consul
+#  template:
+#    metadata:
+#      labels:
+#        app: riverli-consul
+#    spec:
+#      # 🔐 GitHub Container Registry 认证凭据
+#      imagePullSecrets:
+#        - name: ghcr-secret
+#      containers:
+#        - name: blog-consul
+#          # 🌟 Jenkins 自动替换版本号
+#          image: ghcr.io/strive9930/riverli-blog-consul:latest
+#          ports:
+#            - containerPort: 8080
+#          env:
+#            - name: ConsulConfig__Address
+#              value: "http://consul-server:8500"
+#
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: consul-service
+#  namespace: default
+#spec:
+#  # 默认 ClusterIP 类型，仅集群内部可访问
+#  ports:
+#    - port: 80
+#      targetPort: 8080
+#  selector:
+#    app: riverli-consul
