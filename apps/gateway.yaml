@@ -48,6 +48,6 @@ spec:
   ports:
     - port: 80                  # Service 端口（集群内访问用）
       targetPort: 8080          # 目标 Pod 端口（转发到容器的 8080）
-      nodePort: 30081           # 宿主机端口（外部通过 http://<节点IP>:30080 访问）
+      nodePort: 30089           # 宿主机端口（外部通过 http://<节点IP>:30080 访问）
   selector:
     app: riverli-gateway        # 关联到上面的 Deployment
